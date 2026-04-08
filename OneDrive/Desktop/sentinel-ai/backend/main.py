@@ -1,7 +1,4 @@
-from fastapi import FastAPI
-from monitor import get_system_data
-from ai import analyze_threat
-from db import save_log
+from fastapi import FastAPI\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom monitor import get_system_data\nfrom ai import analyze_threat\nfrom db import save_log\n\napp = FastAPI()\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=["http://localhost:3000"],\n    allow_credentials=True,\n    allow_methods=["*"],\n    allow_headers=["*"],\n)\n
 
 app = FastAPI()
 
