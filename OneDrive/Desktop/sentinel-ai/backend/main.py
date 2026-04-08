@@ -1,52 +1,80 @@
-from fastapi import FastAPI\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom monitor import get_system_data\nfrom ai import analyze_threat\nfrom db import save_log\n\napp = FastAPI()\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=["http://localhost:3000"],\n    allow_credentials=True,\n    allow_methods=["*"],\n    allow_headers=["*"],\n)\n
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from monitor import get_system_data
+from ai import analyze_threat
+from db import save_log
+from datetime import datetime
+import json
 
-app = FastAPI()
+app = FastAPI(title="Sentinel AI API", description="Cybersecurity monitoring backend")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
-def home():
-    return {"message": "Sentinel AI Running"}
+async def home():
+    return {"message": "Sentinel AI Backend Running", "endpoints": ["/monitor", "/scan?url=..."]}
 
-# 🔥 SYSTEM MONITOR + AI
 @app.get("/monitor")
-def monitor():
-
+async def monitor():
     data = get_system_data()
-
-    # simple detection
-    if data["cpu"] > 80:
-        result = analyze_threat(data)
-
+    data["time"] = datetime.now().strftime("%H:%M")
+    
+    NORMAL_CPU = 30
+    if data["cpu"] > NORMAL_CPU + 40:
+        try:
+            result = analyze_threat(data)
+        except:
+            result = {
+                "risk_score": 70,
+                "level": "medium",
+                "explanation": "Fallback detection based on CPU spike",
+                "action": "Investigate processes"
+            }
+        
         save_log({
             "cpu": data["cpu"],
-            "risk": "high",
-            "message": result
+            "risk": result["level"],
+            "message": result["explanation"],
+            "risk_score": result["risk_score"]
         })
-
+        
         return {
-            "status": "suspicious",
+            "status": "anomaly",
             "analysis": result,
             "data": data
         }
-
+    
     return {
         "status": "normal",
         "data": data
     }
 
-# 🌐 URL SCANNER
 @app.get("/scan")
-def scan(url: str):
-
-    data = {"url": url}
-
-    result = analyze_threat(data)
-
+async def scan(url: str):
+    data = {"url": url, "time": datetime.now().strftime("%H:%M")}
+    try:
+        result = analyze_threat(data)
+    except:
+        result = {
+            "risk_score": 50,
+            "level": "low",
+            "explanation": "URL scan fallback",
+            "action": "Review manually"
+        }
+    
     save_log({
         "cpu": 0,
-        "risk": "url",
-        "message": result
+        "risk": result["level"],
+        "message": result["explanation"],
+        "risk_score": result["risk_score"]
     })
-
     return {
         "analysis": result
     }
+
