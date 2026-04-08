@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from monitor import get_system_data
-from ai import analyze_threat
-from db import save_log
+from .monitor import get_system_data
+from .ai import analyze_threat
+from .db import save_log
 from datetime import datetime
 import json
 
