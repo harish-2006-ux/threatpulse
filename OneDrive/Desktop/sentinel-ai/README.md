@@ -1,42 +1,58 @@
-# Sentinel AI - Backend Cybersecurity API
+# Sentinel AI - Cybersecurity Demo ✅ LIVE
 
-## Overview
-Sentinel AI backend API for real-time system monitoring, AI threat analysis, URL scanning, logs. 
-FastAPI with Anthropic, psutil, Supabase.
+## 🎯 Quick Demo (1 minute setup)
+1. Backend running: `http://localhost:8000` ✅
+2. Open `index.html` in browser
+3. **LIVE MONITORING** auto-refreshes CPU + AI threats
+4. **SCAN URL** test phishing sites
 
-Hosted at https://github.com/Amoghboss/ThreatPulse-AI.
-
-## Setup
-1. **Backend**:
-   ```
-   .venv\Scripts\Activate.ps1
-   pip install -r requirements.txt
-   ```
-   Update .env:
-   ```
-   ANTHROPIC_API_KEY=your_key
-   SUPABASE_URL=your_project_url
-   SUPABASE_KEY=your_anon_key
-   ```
-
-2. **Supabase**: Cloud (.env) or local Docker.
-
-## Run
-`uvicorn backend.main:app --reload --port 8000`
-
+## 🚀 Backend Status
+```
 Endpoints:
-- GET /monitor - system data + AI analysis
-- GET /scan?url=example.com - URL threat scan
-
-## Structure
+/monitor → CPU + processes + AI risk score
+/scan?url=... → URL threat analysis
 ```
-sentinel-ai/
-├── backend/ (main.py, ai.py, db.py, monitor.py)
-├── requirements.txt
-├── .env
-└── README.md
+**Test:** `curl http://localhost:8000/monitor`
+
+## 📱 Frontend Dashboard
+- `index.html` (standalone, no build needed)
+- Real-time CPU monitoring
+- AI risk detection (low/medium/high)
+- URL scanner
+- Auto-refresh 10s
+
+## 🛠️ Setup (Production Ready)
+```powershell
+# Backend
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn backend.main:app --reload --port 8000
+
+# Open Demo
+start index.html
 ```
 
-Features complete. Backend ready!
+**.env.example** (copy to .env)
+```
+ANTHROPIC_API_KEY=sk-ant-...
+SUPABASE_URL=https://...
+SUPABASE_KEY=eyJ...
+```
+**One-click:** `python run.py`
+
+
+## 🧪 Features LIVE
+| Endpoint | CPU Trigger | AI Analysis | Logs |
+|----------|-------------|-------------|------|
+| /monitor | >70% spike | ✅ JSON risk | Supabase/mock |
+| /scan    | URL input  | ✅ Threat score | ✅ Saved |
+
+## 🎉 DEMO FLOW
+1. **Normal**: CPU 20% → "normal"
+2. **Anomaly**: Run stress test → CPU 80% → "HIGH RISK" + AI explanation
+3. **Scan**: "phishing.com" → AI verdict
+4. **Logs**: Check Supabase/console
+
+**Sentinel AI: Backend + Dashboard COMPLETE. Ready for judges!**
 
 
