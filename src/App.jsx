@@ -180,8 +180,7 @@ export default function App() {
             <div className="flex-1">
               <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "#8b949e" }}>Active Device</p>
               <h2 className="text-lg font-bold">Laptop-Model: <span className="text-cyan-400 glow-cyan">XYZ123</span></h2>
-              <div className="mt-2 h-8">
-                <SparkLine color="#22d3ee" points={[2,5,3,7,4,6,5,8,4,7,6,9,5]} />
+
               </div>
             </div>
             <div className="text-right">
